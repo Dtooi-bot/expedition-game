@@ -3,7 +3,15 @@
     {"name":"Игровые объекты","order":5,"path":"folders/Игровые объекты.yy",},
     {"name":"Игрок","order":2,"path":"folders/Игрок.yy",},
     {"name":"Объекты","order":1,"path":"folders/Игрок/Объекты.yy",},
+    {"name":"Персонажи","order":6,"path":"folders/Персонажи.yy",},
+    {"name":"Джозоф","order":1,"path":"folders/Персонажи/Джозоф.yy",},
+    {"name":"скрипт","order":2,"path":"folders/Персонажи/Джозоф/скрипт.yy",},
+    {"name":"объект","order":1,"path":"folders/Персонажи/Джозоф/объект.yy",},
     {"name":"Скрипты","order":4,"path":"folders/Скрипты.yy",},
   ],
-  "ResourceOrderSettings":[],
+  "ResourceOrderSettings":[
+    {"name":"spr_npc_joseph","order":7,"path":"sprites/spr_npc_joseph/spr_npc_joseph.yy",},
+    {"name":"Sprite2","order":8,"path":"sprites/Sprite2/Sprite2.yy",},
+    {"name":"Sprite3","order":9,"path":"sprites/Sprite3/Sprite3.yy",},
+  ],
 }
