@@ -1,6 +1,11 @@
 {
-  "FolderOrderSettings":[],
+  "FolderOrderSettings":[
+    {"name":"Игровые объекты","order":5,"path":"folders/Игровые объекты.yy",},
+    {"name":"Игрок","order":2,"path":"folders/Игрок.yy",},
+    {"name":"Объекты","order":1,"path":"folders/Игрок/Объекты.yy",},
+    {"name":"Скрипты","order":4,"path":"folders/Скрипты.yy",},
+  ],
   "ResourceOrderSettings":[
-    {"name":"Script1","order":1,"path":"scripts/Script1/Script1.yy",},
+    {"name":"obj_game","order":3,"path":"objects/obj_game/obj_game.yy",},
   ],
 }
