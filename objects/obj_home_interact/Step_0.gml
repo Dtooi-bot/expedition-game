@@ -1,14 +1,28 @@
 // obj_home_interact_Step.txt
 // Step Event
 // Полная версия Step для obj_home_interact.
-// ВАЖНО: здесь не должно быть кода движения игрока.
+// Работает не по центру объекта, а по прямоугольной зоне вокруг предмета.
 
 show_hint = false;
 
 if (instance_exists(obj_player)) {
-    var dist_to_player = point_distance(x, y, obj_player.x, obj_player.y);
+    var check_left = bbox_left - interaction_distance;
+    var check_top = bbox_top - interaction_distance;
+    var check_right = bbox_right + interaction_distance;
+    var check_bottom = bbox_bottom + interaction_distance;
 
-    if (dist_to_player <= interaction_distance) {
+    var player_near = rectangle_in_rectangle(
+        obj_player.bbox_left,
+        obj_player.bbox_top,
+        obj_player.bbox_right,
+        obj_player.bbox_bottom,
+        check_left,
+        check_top,
+        check_right,
+        check_bottom
+    );
+
+    if (player_near) {
         show_hint = true;
 
         if (keyboard_check_pressed(ord("E"))) {
