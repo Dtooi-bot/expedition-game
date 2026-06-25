@@ -1,6 +1,7 @@
 // obj_home_interact_Step.txt
 // Step Event
-// Проверяет, рядом ли игрок, и открывает текст по E.
+// Полная версия Step для obj_home_interact.
+// ВАЖНО: здесь не должно быть кода движения игрока.
 
 show_hint = false;
 

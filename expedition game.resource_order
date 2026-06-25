@@ -17,6 +17,7 @@
     {"name":"obj_solid","order":15,"path":"objects/obj_solid/obj_solid.yy",},
     {"name":"rm_home","order":13,"path":"rooms/rm_home/rm_home.yy",},
     {"name":"ChatGPT_Image_25______2026_____21_19_51","order":14,"path":"sprites/ChatGPT_Image_25______2026_____21_19_51/ChatGPT_Image_25______2026_____21_19_51.yy",},
+    {"name":"spr_collision_32","order":17,"path":"sprites/spr_collision_32/spr_collision_32.yy",},
     {"name":"spr_npc_joseph","order":7,"path":"sprites/spr_npc_joseph/spr_npc_joseph.yy",},
     {"name":"Sprite2","order":8,"path":"sprites/Sprite2/Sprite2.yy",},
     {"name":"Sprite3","order":9,"path":"sprites/Sprite3/Sprite3.yy",},

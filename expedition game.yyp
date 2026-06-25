@@ -40,6 +40,7 @@
     {"id":{"name":"rm_ship","path":"rooms/rm_ship/rm_ship.yy",},},
     {"id":{"name":"scr_game_init","path":"scripts/scr_game_init/scr_game_init.yy",},},
     {"id":{"name":"ChatGPT_Image_25______2026_____21_19_51","path":"sprites/ChatGPT_Image_25______2026_____21_19_51/ChatGPT_Image_25______2026_____21_19_51.yy",},},
+    {"id":{"name":"spr_collision_32","path":"sprites/spr_collision_32/spr_collision_32.yy",},},
     {"id":{"name":"spr_npc_joseph","path":"sprites/spr_npc_joseph/spr_npc_joseph.yy",},},
     {"id":{"name":"Sprite2","path":"sprites/Sprite2/Sprite2.yy",},},
     {"id":{"name":"Sprite3","path":"sprites/Sprite3/Sprite3.yy",},},

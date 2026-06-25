@@ -31,7 +31,10 @@
   "resourceType":"GMObject",
   "resourceVersion":"2.0",
   "solid":false,
-  "spriteId":null,
+  "spriteId":{
+    "name":"spr_collision_32",
+    "path":"sprites/spr_collision_32/spr_collision_32.yy",
+  },
   "spriteMaskId":null,
-  "visible":true,
+  "visible":false,
 }
