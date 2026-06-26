@@ -1,59 +1,121 @@
-// obj_cutscene_Step.txt
+// obj_cutscene
 // Step Event
-// Полная версия для obj_cutscene.
-// Space / Enter - продолжить диалог.
-// W/S или Up/Down - выбор.
-// Enter - подтвердить выбор.
+// Управляет репликами, паузой с тремя точками и выбором ответа.
 
-if (dialogue_open) {
-    if (keyboard_check_pressed(vk_space) || keyboard_check_pressed(vk_enter)) {
-        scene_step += 1;
-
-        if (scene_step == 1) {
-            speaker = "Герой";
-            dialogue_text = "Если я останусь, мы просто будем ждать конца.";
-        }
-        else if (scene_step == 2) {
-            speaker = "Жена";
-            dialogue_text = "А если море заберет тебя раньше болезни?";
-        }
-        else if (scene_step == 3) {
-            speaker = "Дочь";
-            dialogue_text = "Ты привезешь мне ракушку?";
-        }
-        else if (scene_step == 4) {
-            speaker = "Герой";
-            dialogue_text = "Привезу. И лекарство тоже.";
-        }
-        else if (scene_step == 5) {
-            speaker = "Жена";
-            dialogue_text = "Тогда реши, что делать с деньгами. Нам они тоже нужны.";
-        }
-        else if (scene_step == 6) {
-            dialogue_open = false;
-            choice_open = true;
-            choice_index = 0;
-        }
-    }
+if (!active) {
+    exit;
 }
 
-if (choice_open) {
-    if (keyboard_check_pressed(vk_up) || keyboard_check_pressed(ord("W"))) {
-        choice_index = 0;
-    }
+scr_game_state_init();
 
-    if (keyboard_check_pressed(vk_down) || keyboard_check_pressed(ord("S"))) {
-        choice_index = 1;
-    }
 
-    if (keyboard_check_pressed(vk_enter)) {
-        if (choice_index == 0) {
-            scr_apply_family_money_choice(true);
+// Во время общей паузы диалог остаётся на экране,
+// но его внутреннее состояние не изменяется.
+if (global.game_state == GameState.PAUSE) {
+    exit;
+}
+
+
+switch (global.game_state) {
+    case GameState.DIALOGUE:
+        // Настоящая пауза после фразы дочери.
+        if (pause_frames > 0) {
+            pause_frames -= 1;
+
+            if (pause_frames <= 0) {
+                dialogue_step = 4;
+                speaker = "Дочь";
+                dialogue_text = "Когда я проснусь, ты уже уйдешь?";
+            }
+
+            break;
         }
-        else {
-            scr_apply_family_money_choice(false);
+
+        if (keyboard_check_pressed(vk_enter)) {
+            // Обычная одиночная реплика закрывается по Enter.
+            if (dialogue_type == 1) {
+                finish_dialogue();
+                break;
+            }
+
+            // Диалог с дочерью.
+            if (dialogue_type == 2) {
+                switch (dialogue_step) {
+                    case 0:
+                        dialogue_step = 1;
+                        speaker = "Герой";
+                        dialogue_text = "Ненадолго.";
+                        break;
+
+                    case 1:
+                        dialogue_step = 2;
+                        speaker = "Дочь";
+                        dialogue_text = "Ты всегда так говоришь.";
+                        break;
+
+                    case 2:
+                        dialogue_step = 3;
+                        speaker = "";
+                        dialogue_text = "...";
+
+                        // Одна секунда автоматической тишины.
+                        pause_frames = max(
+                            1,
+                            round(game_get_speed(gamespeed_fps))
+                        );
+                        break;
+
+                    case 4:
+                        dialogue_open = false;
+                        choice_open = true;
+                        choice_index = 0;
+                        scr_game_state_set(GameState.CHOICE);
+                        break;
+
+                    case 5:
+                        finish_dialogue();
+                        break;
+                }
+            }
+        }
+        break;
+
+
+    case GameState.CHOICE:
+        var choice_count = array_length(choice_options);
+
+        if (choice_count <= 0) {
+            finish_dialogue();
+            break;
         }
 
-        room_goto(rm_ship);
-    }
+        if (keyboard_check_pressed(vk_up)) {
+            choice_index -= 1;
+
+            if (choice_index < 0) {
+                choice_index = choice_count - 1;
+            }
+        }
+
+        if (keyboard_check_pressed(vk_down)) {
+            choice_index += 1;
+
+            if (choice_index >= choice_count) {
+                choice_index = 0;
+            }
+        }
+
+        if (keyboard_check_pressed(vk_enter)) {
+            apply_daughter_choice(choice_index);
+
+            choice_open = false;
+            dialogue_open = true;
+
+            dialogue_step = 5;
+            speaker = "Герой";
+            dialogue_text = choice_options[choice_index];
+
+            scr_game_state_set(GameState.DIALOGUE);
+        }
+        break;
 }

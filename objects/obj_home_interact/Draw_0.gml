@@ -1,7 +1,6 @@
-// obj_home_interact_Draw.txt
+// obj_home_interact
 // Draw Event
-// Полная версия Draw для obj_home_interact.
-// draw_self() здесь специально нет, поэтому белый квадрат не будет виден в игре.
+// draw_self() намеренно отсутствует.
 
 if (show_hint) {
     draw_set_color(c_white);

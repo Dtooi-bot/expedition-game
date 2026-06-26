@@ -1,32 +1,31 @@
-// obj_home_interact_Step.txt
+// obj_home_interact
 // Step Event
-// Полная версия Step для obj_home_interact.
-// Работает не по центру объекта, а по прямоугольной зоне вокруг предмета.
 
 show_hint = false;
 
-if (instance_exists(obj_player)) {
-    var check_left = bbox_left - interaction_distance;
-    var check_top = bbox_top - interaction_distance;
-    var check_right = bbox_right + interaction_distance;
-    var check_bottom = bbox_bottom + interaction_distance;
+if (!scr_game_state_is(GameState.EXPLORE)) {
+    exit;
+}
 
-    var player_near = rectangle_in_rectangle(
-        obj_player.bbox_left,
-        obj_player.bbox_top,
-        obj_player.bbox_right,
-        obj_player.bbox_bottom,
-        check_left,
-        check_top,
-        check_right,
-        check_bottom
-    );
+var player_id = instance_find(obj_player, 0);
 
-    if (player_near) {
-        show_hint = true;
+if (player_id == noone) {
+    exit;
+}
 
-        if (keyboard_check_pressed(ord("E"))) {
-            show_message(interact_title + "\n\n" + interact_text);
+var target = scr_get_interaction_target(player_id);
+
+if (target == id) {
+    show_hint = true;
+
+    if (keyboard_check_pressed(ord("E"))) {
+        var dialogue_controller = instance_find(obj_cutscene, 0);
+
+        if (dialogue_controller != noone) {
+            dialogue_controller.start_simple_dialogue(
+                interact_title,
+                interact_text
+            );
         }
     }
 }

@@ -1,9 +1,17 @@
-// scr_game_init.txt
-// Script: scr_game_init
-// Полная версия.
-// Инициализирует ресурсы экспедиции, отношения команды и отношения семьи.
+// scr_game_init
+// Инициализирует новую игру только один раз.
+// Повторное создание контроллера больше не сбрасывает сделанные выборы.
 
 function scr_game_init() {
+    if (
+        variable_global_exists("game_initialized")
+        && global.game_initialized
+    ) {
+        return;
+    }
+
+    global.game_initialized = true;
+
     // Экспедиция
     global.food_base = 20;
     global.wood_base = 10;
@@ -36,11 +44,19 @@ function scr_game_init() {
     global.daughter_trust = 90;
     global.daughter_loyalty = 100;
 
-    // Флаги решений
+    // Решение о деньгах семьи
     global.family_money_left = false;
     global.family_choice_done = false;
+
+    // Ответ дочери перед уходом
+    global.daughter_departure_choice = -1;
+    global.daughter_departure_choice_done = false;
+    global.promised_to_wake_daughter = false;
+    global.promised_to_stay_with_daughter = false;
 }
 
+
+// Ограничивает показатели семьи диапазоном от 0 до 100.
 function scr_clamp_family_stats() {
     global.wife_health = clamp(global.wife_health, 0, 100);
     global.wife_trust = clamp(global.wife_trust, 0, 100);
@@ -51,6 +67,8 @@ function scr_clamp_family_stats() {
     global.daughter_loyalty = clamp(global.daughter_loyalty, 0, 100);
 }
 
+
+// Применяет выбор между деньгами семье и запасами экспедиции.
 function scr_apply_family_money_choice(_leave_money_to_family) {
     global.family_money_left = _leave_money_to_family;
     global.family_choice_done = true;

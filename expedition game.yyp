@@ -40,6 +40,8 @@
     {"id":{"name":"rm_home","path":"rooms/rm_home/rm_home.yy",},},
     {"id":{"name":"rm_ship","path":"rooms/rm_ship/rm_ship.yy",},},
     {"id":{"name":"scr_game_init","path":"scripts/scr_game_init/scr_game_init.yy",},},
+    {"id":{"name":"scr_game_state","path":"scripts/scr_game_state/scr_game_state.yy",},},
+    {"id":{"name":"scr_interaction","path":"scripts/scr_interaction/scr_interaction.yy",},},
     {"id":{"name":"ChatGPT_Image_25______2026_____21_19_51","path":"sprites/ChatGPT_Image_25______2026_____21_19_51/ChatGPT_Image_25______2026_____21_19_51.yy",},},
     {"id":{"name":"spr_collision_32","path":"sprites/spr_collision_32/spr_collision_32.yy",},},
     {"id":{"name":"spr_daughter","path":"sprites/spr_daughter/spr_daughter.yy",},},

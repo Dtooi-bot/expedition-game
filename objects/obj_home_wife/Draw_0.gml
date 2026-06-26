@@ -1,6 +1,5 @@
-// obj_home_wife_Draw.txt
+// obj_home_wife
 // Draw Event
-// Полная версия Draw для obj_home_wife.
 
 draw_self();
 

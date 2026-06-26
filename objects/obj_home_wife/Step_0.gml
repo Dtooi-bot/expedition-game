@@ -1,22 +1,31 @@
-// obj_home_wife_Step.txt
+// obj_home_wife
 // Step Event
-// Полная версия Step для obj_home_wife.
-// В диалоге больше не показываем параметры.
 
 show_hint = false;
 
-if (instance_exists(obj_player)) {
-    var player_near = point_distance(x, y, obj_player.x, obj_player.y) <= interaction_distance;
+if (!scr_game_state_is(GameState.EXPLORE)) {
+    exit;
+}
 
-    if (player_near) {
-        show_hint = true;
+var player_id = instance_find(obj_player, 0);
 
-        if (keyboard_check_pressed(ord("E"))) {
-            if (!variable_global_exists("wife_health")) {
-                scr_game_init();
-            }
+if (player_id == noone) {
+    exit;
+}
 
-            show_message(npc_name + "\n\n" + dialogue_text);
+var target = scr_get_interaction_target(player_id);
+
+if (target == id) {
+    show_hint = true;
+
+    if (keyboard_check_pressed(ord("E"))) {
+        var dialogue_controller = instance_find(obj_cutscene, 0);
+
+        if (dialogue_controller != noone) {
+            dialogue_controller.start_simple_dialogue(
+                npc_name,
+                dialogue_text
+            );
         }
     }
 }
