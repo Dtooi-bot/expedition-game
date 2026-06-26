@@ -1,6 +1,7 @@
 // obj_home_daughter_Step.txt
 // Step Event
 // Полная версия Step для obj_home_daughter.
+// В диалоге больше не показываем параметры.
 
 show_hint = false;
 
@@ -15,13 +16,7 @@ if (instance_exists(obj_player)) {
                 scr_game_init();
             }
 
-            show_message(
-                npc_name + "\n\n"
-                + dialogue_text + "\n\n"
-                + "Здоровье: " + string(global.daughter_health) + "\n"
-                + "Доверие: " + string(global.daughter_trust) + "\n"
-                + "Лояльность: " + string(global.daughter_loyalty)
-            );
+            show_message(npc_name + "\n\n" + dialogue_text);
         }
     }
 }
