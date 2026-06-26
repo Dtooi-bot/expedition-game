@@ -1,7 +1,6 @@
 // obj_home_wife_Draw.txt
 // Draw Event
 // Полная версия Draw для obj_home_wife.
-// Рисует персонажа и подсказку E рядом с ним.
 
 draw_self();
 
