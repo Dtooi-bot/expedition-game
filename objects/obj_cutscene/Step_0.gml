@@ -1,5 +1,6 @@
-// obj_cutscene_family_Step.txt
+// obj_cutscene_Step.txt
 // Step Event
+// Полная версия для obj_cutscene.
 // Space / Enter - продолжить диалог.
 // W/S или Up/Down - выбор.
 // Enter - подтвердить выбор.
@@ -13,11 +14,11 @@ if (dialogue_open) {
             dialogue_text = "Если я останусь, мы просто будем ждать конца.";
         }
         else if (scene_step == 2) {
-            speaker = "Мать";
+            speaker = "Жена";
             dialogue_text = "А если море заберет тебя раньше болезни?";
         }
         else if (scene_step == 3) {
-            speaker = "Сестра";
+            speaker = "Дочь";
             dialogue_text = "Ты привезешь мне ракушку?";
         }
         else if (scene_step == 4) {
@@ -25,6 +26,10 @@ if (dialogue_open) {
             dialogue_text = "Привезу. И лекарство тоже.";
         }
         else if (scene_step == 5) {
+            speaker = "Жена";
+            dialogue_text = "Тогда реши, что делать с деньгами. Нам они тоже нужны.";
+        }
+        else if (scene_step == 6) {
             dialogue_open = false;
             choice_open = true;
             choice_index = 0;
@@ -43,12 +48,10 @@ if (choice_open) {
 
     if (keyboard_check_pressed(vk_enter)) {
         if (choice_index == 0) {
-            global.family_money_left = true;
-            global.expedition_gold = global.start_gold - 100;
+            scr_apply_family_money_choice(true);
         }
         else {
-            global.family_money_left = false;
-            global.expedition_gold = global.start_gold;
+            scr_apply_family_money_choice(false);
         }
 
         room_goto(rm_ship);

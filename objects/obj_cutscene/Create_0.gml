@@ -1,15 +1,16 @@
-// obj_cutscene_family_Create.txt
+// obj_cutscene_Create.txt
 // Create Event
+// Полная версия для obj_cutscene.
 // Контроллер первой сцены: дом, семья, первый выбор.
+
+if (!variable_global_exists("wife_health")) {
+    scr_game_init();
+}
 
 scene_step = 0;
 dialogue_open = true;
 choice_open = false;
 choice_index = 0;
 
-speaker = "Мать";
+speaker = "Жена";
 dialogue_text = "Ты не обязан идти. Карта может врать.";
-
-global.start_gold = 300;
-global.family_money_left = false;
-global.expedition_gold = global.start_gold;

@@ -11,6 +11,7 @@
   ],
   "ResourceOrderSettings":[
     {"name":"obj_cutscene","order":10,"path":"objects/obj_cutscene/obj_cutscene.yy",},
+    {"name":"obj_family_status","order":18,"path":"objects/obj_family_status/obj_family_status.yy",},
     {"name":"obj_home_interact","order":16,"path":"objects/obj_home_interact/obj_home_interact.yy",},
     {"name":"obj_home_mother","order":11,"path":"objects/obj_home_mother/obj_home_mother.yy",},
     {"name":"obj_home_sister","order":12,"path":"objects/obj_home_sister/obj_home_sister.yy",},
