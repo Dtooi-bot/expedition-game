@@ -1,11 +1,11 @@
 {
   "$GMObject":"",
-  "%Name":"obj_home_sister",
+  "%Name":"obj_home_wife",
   "eventList":[
     {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":0,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
   ],
   "managed":true,
-  "name":"obj_home_sister",
+  "name":"obj_home_wife",
   "overriddenProperties":[],
   "parent":{
     "name":"expedition game",
@@ -29,7 +29,10 @@
   "resourceType":"GMObject",
   "resourceVersion":"2.0",
   "solid":false,
-  "spriteId":null,
+  "spriteId":{
+    "name":"spr_wife",
+    "path":"sprites/spr_wife/spr_wife.yy",
+  },
   "spriteMaskId":null,
   "visible":true,
 }
