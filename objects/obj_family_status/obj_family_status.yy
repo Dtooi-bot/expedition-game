@@ -10,8 +10,8 @@
   "name":"obj_family_status",
   "overriddenProperties":[],
   "parent":{
-    "name":"expedition game",
-    "path":"expedition game.yyp",
+    "name":"Игровые объекты",
+    "path":"folders/Игровые объекты.yy",
   },
   "parentObjectId":null,
   "persistent":false,

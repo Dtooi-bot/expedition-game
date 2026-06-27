@@ -5,8 +5,8 @@
   "isDnD":false,
   "name":"scr_interaction",
   "parent":{
-    "name":"expedition game",
-    "path":"expedition game.yyp",
+    "name":"Скрипты",
+    "path":"folders/Скрипты.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

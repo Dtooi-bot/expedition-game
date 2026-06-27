@@ -25,8 +25,8 @@
   "nineSlice":null,
   "origin":4,
   "parent":{
-    "name":"expedition game",
-    "path":"expedition game.yyp",
+    "name":"Спрайты",
+    "path":"folders/Семья/Спрайты.yy",
   },
   "preMultiplyAlpha":false,
   "resourceType":"GMSprite",

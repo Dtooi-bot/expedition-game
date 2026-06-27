@@ -10,8 +10,8 @@
   "name":"obj_home_wife",
   "overriddenProperties":[],
   "parent":{
-    "name":"expedition game",
-    "path":"expedition game.yyp",
+    "name":"Объекты",
+    "path":"folders/Семья/Объекты.yy",
   },
   "parentObjectId":null,
   "persistent":false,
