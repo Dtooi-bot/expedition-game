@@ -1,30 +1,15 @@
-// obj_pub_entrance_controller
+// obj_pub_interior_controller
 // Draw Event
-// Рисует статичный фон улицы перед пабом.
-// Обычный Draw используется, чтобы фон был позади игрока.
+// Рисует статичный интерьер паба.
 
-var bg_sprite = noone;
+var bg_sprite = asset_get_index("spr_pub_interior");
 
-switch (current_stage) {
-    case 0:
-        bg_sprite = asset_get_index("spr_pub_street_idle");
-        break;
-
-    case 1:
-        bg_sprite = asset_get_index("spr_pub_street_joseph_scene");
-        break;
-
-    case 2:
-        bg_sprite = asset_get_index("spr_pub_street_open_door");
-        break;
-}
-
-if (bg_sprite == -1 || bg_sprite == noone) {
+if (bg_sprite == -1) {
     draw_set_color(c_black);
     draw_rectangle(0, 0, room_width, room_height, false);
 
     draw_set_color(c_white);
-    draw_text(32, 32, "Нет спрайта улицы паба");
+    draw_text(32, 32, "Нет спрайта spr_pub_interior");
     exit;
 }
 

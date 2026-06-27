@@ -1,10 +1,10 @@
 {
   "FolderOrderSettings":[
-    {"name":"ПАБ","order":33,"path":"folders/ПАБ.yy",},
     {"name":"Игровые объекты","order":5,"path":"folders/Игровые объекты.yy",},
     {"name":"Игрок","order":2,"path":"folders/Игрок.yy",},
     {"name":"Объекты","order":1,"path":"folders/Игрок/Объекты.yy",},
     {"name":"Спрайты","order":2,"path":"folders/Игрок/Спрайты.yy",},
+    {"name":"ПАБ","order":33,"path":"folders/ПАБ.yy",},
     {"name":"Персонажи","order":6,"path":"folders/Персонажи.yy",},
     {"name":"Джозоф","order":1,"path":"folders/Персонажи/Джозоф.yy",},
     {"name":"объект","order":1,"path":"folders/Персонажи/Джозоф/объект.yy",},
@@ -21,8 +21,8 @@
     {"name":"obj_family_status","order":2,"path":"objects/obj_family_status/obj_family_status.yy",},
     {"name":"obj_home_interact","order":3,"path":"objects/obj_home_interact/obj_home_interact.yy",},
     {"name":"obj_home_wife","order":1,"path":"objects/obj_home_wife/obj_home_wife.yy",},
-    {"name":"obj_pub_entrance_controller","order":32,"path":"objects/obj_pub_entrance_controller/obj_pub_entrance_controller.yy",},
-    {"name":"obj_pub_interior_controller","order":5,"path":"objects/obj_pub_interior_controller/obj_pub_interior_controller.yy",},
+    {"name":"obj_pub_entrance_controller","order":5,"path":"objects/obj_pub_entrance_controller/obj_pub_entrance_controller.yy",},
+    {"name":"obj_pub_interior_controller","order":32,"path":"objects/obj_pub_interior_controller/obj_pub_interior_controller.yy",},
     {"name":"obj_solid","order":4,"path":"objects/obj_solid/obj_solid.yy",},
     {"name":"rm_city_map","order":30,"path":"rooms/rm_city_map/rm_city_map.yy",},
     {"name":"rm_harbor","order":27,"path":"rooms/rm_harbor/rm_harbor.yy",},
