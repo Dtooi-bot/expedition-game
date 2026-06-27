@@ -5,6 +5,16 @@
 scr_game_state_init();
 
 
+// Пока открыта карта города, obj_city_map сам управляет вводом.
+// Это нужно, чтобы Escape и I не переводили карту в обычный режим исследования.
+if (
+    variable_global_exists("location_map_active")
+    && global.location_map_active
+) {
+    exit;
+}
+
+
 // Escape
 if (keyboard_check_pressed(vk_escape)) {
     switch (global.game_state) {

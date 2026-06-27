@@ -1,7 +1,7 @@
 // obj_cutscene
 // Step Event
 // Управляет диалогами дочери и жены, выбором, паузами,
-// плашками отношений, тишиной и переходом в гавань.
+// плашками отношений, тишиной и переходом на карту города.
 
 
 // --------------------------------------------------
@@ -19,7 +19,7 @@ if (relation_popup_active) {
 
 
 // --------------------------------------------------
-// ЗАТЕМНЕНИЕ И ПЕРЕХОД В ГАВАНЬ
+// ЗАТЕМНЕНИЕ И ПЕРЕХОД НА КАРТУ ГОРОДА
 // --------------------------------------------------
 
 if (fade_active) {
@@ -30,17 +30,23 @@ if (fade_active) {
         fade_active = false;
 
         global.prologue_harbor_transition_done = true;
-        scr_game_state_set(GameState.EXPLORE);
 
-        var harbor_room = asset_get_index("rm_harbor");
+        var city_map_room = asset_get_index("rm_city_map");
 
-        if (harbor_room != -1) {
-            room_goto(harbor_room);
+        if (city_map_room != -1) {
+            room_goto(city_map_room);
         }
         else {
             // Временный запасной переход, чтобы проект не падал,
-            // если rm_harbor ещё не создана.
-            room_goto(rm_ship);
+            // если rm_city_map ещё не создана.
+            var harbor_room = asset_get_index("rm_harbor");
+
+            if (harbor_room != -1) {
+                room_goto(harbor_room);
+            }
+            else {
+                room_goto(rm_ship);
+            }
         }
     }
 
