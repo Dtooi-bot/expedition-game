@@ -32,7 +32,10 @@
   "resourceType":"GMObject",
   "resourceVersion":"2.0",
   "solid":false,
-  "spriteId":null,
+  "spriteId":{
+    "name":"spr_pub_street_idle",
+    "path":"sprites/spr_pub_street_idle/spr_pub_street_idle.yy",
+  },
   "spriteMaskId":null,
   "visible":true,
 }

@@ -30,7 +30,10 @@
   "resourceType":"GMObject",
   "resourceVersion":"2.0",
   "solid":false,
-  "spriteId":null,
+  "spriteId":{
+    "name":"spr_pub_interior",
+    "path":"sprites/spr_pub_interior/spr_pub_interior.yy",
+  },
   "spriteMaskId":null,
   "visible":true,
 }
