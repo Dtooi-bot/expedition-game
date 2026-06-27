@@ -8,7 +8,15 @@
 scr_game_init();
 scr_game_state_init();
 
-depth = 1000000;
+
+// Важно:
+// В комнате есть чёрный Background layer с depth = 100.
+// Если поставить контроллеру depth = 1000000, фон рисуется ЗА чёрным слоем.
+// Поэтому ставим depth = 50:
+// фон улицы будет поверх чёрного Background layer,
+// но игрок с depth = -100000 всё равно останется поверх фона.
+depth = 50;
+
 global.location_map_active = false;
 
 

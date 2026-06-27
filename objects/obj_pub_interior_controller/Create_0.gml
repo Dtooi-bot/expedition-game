@@ -8,4 +8,9 @@ scr_game_state_init();
 global.location_map_active = false;
 scr_game_state_set(GameState.EXPLORE);
 
-depth = 1000000;
+
+// Важно:
+// интерьер тоже рисуется через Draw Event контроллера.
+// depth = 50 держит фон интерьера поверх чёрного Background layer,
+// но ниже персонажей и GUI.
+depth = 50;
