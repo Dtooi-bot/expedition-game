@@ -9,8 +9,8 @@
   "name":"obj_pub_interior_controller",
   "overriddenProperties":[],
   "parent":{
-    "name":"expedition game",
-    "path":"expedition game.yyp",
+    "name":"ПАБ",
+    "path":"folders/ПАБ.yy",
   },
   "parentObjectId":null,
   "persistent":false,
