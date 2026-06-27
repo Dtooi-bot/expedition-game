@@ -25,6 +25,7 @@
     {"name":"spr_daughter","order":19,"path":"sprites/spr_daughter/spr_daughter.yy",},
     {"name":"spr_npc_joseph","order":7,"path":"sprites/spr_npc_joseph/spr_npc_joseph.yy",},
     {"name":"spr_player","order":9,"path":"sprites/spr_player/spr_player.yy",},
+    {"name":"spr_ui_relationships_menu","order":24,"path":"sprites/spr_ui_relationships_menu/spr_ui_relationships_menu.yy",},
     {"name":"spr_wife","order":20,"path":"sprites/spr_wife/spr_wife.yy",},
   ],
 }

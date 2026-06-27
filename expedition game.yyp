@@ -48,6 +48,7 @@
     {"id":{"name":"spr_daughter","path":"sprites/spr_daughter/spr_daughter.yy",},},
     {"id":{"name":"spr_npc_joseph","path":"sprites/spr_npc_joseph/spr_npc_joseph.yy",},},
     {"id":{"name":"spr_player","path":"sprites/spr_player/spr_player.yy",},},
+    {"id":{"name":"spr_ui_relationships_menu","path":"sprites/spr_ui_relationships_menu/spr_ui_relationships_menu.yy",},},
     {"id":{"name":"spr_wife","path":"sprites/spr_wife/spr_wife.yy",},},
   ],
   "resourceType":"GMProject",
