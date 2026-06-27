@@ -2,6 +2,8 @@
 // Step Event
 // Переключает картинки улицы, запускает диалог с Джозофом
 // и впускает игрока в паб.
+// На постановочном кадре герой остаётся видимым,
+// но фиксируется в заданной позиции.
 
 scr_game_init();
 scr_game_state_init();
@@ -12,13 +14,14 @@ var player_id = instance_find(obj_player, 0);
 var cutscene_id = instance_find(obj_cutscene, 0);
 
 
-// Игрок скрыт только во время постановочного кадра с Джозофом.
+// Герой больше не скрывается на второй сцене.
+// На current_stage == 1 он видим, но удерживается в постановочной точке.
 if (player_id != noone) {
+    player_id.visible = true;
+
     if (current_stage == 1) {
-        player_id.visible = false;
-    }
-    else {
-        player_id.visible = true;
+        player_id.x = joseph_scene_player_x;
+        player_id.y = joseph_scene_player_y;
     }
 }
 
@@ -41,7 +44,9 @@ if (fade_active_local) {
                 joseph_dialogue_requested = false;
 
                 if (player_id != noone) {
-                    player_id.visible = false;
+                    player_id.visible = true;
+                    player_id.x = joseph_scene_player_x;
+                    player_id.y = joseph_scene_player_y;
                 }
 
                 scr_game_state_set(GameState.EXPLORE);
@@ -87,12 +92,18 @@ if (fade_active_local) {
 // --------------------------------------------------
 // СТАДИЯ 1: ПОСТАНОВОЧНЫЙ КАДР С ДЖОЗОФОМ
 // --------------------------------------------------
-// Джозоф здесь не объект. Он часть статичной картинки.
-// Поэтому игрок нажимает E, а контроллер запускает диалог.
+// Джозоф и пьяница здесь часть статичной картинки.
+// Герой видим, но стоит в фиксированной точке кадра.
 
 if (current_stage == 1) {
     show_door_hint = false;
     show_scene_hint = false;
+
+    if (player_id != noone) {
+        player_id.visible = true;
+        player_id.x = joseph_scene_player_x;
+        player_id.y = joseph_scene_player_y;
+    }
 
     if (!scr_game_state_is(GameState.EXPLORE)) {
         exit;

@@ -11,10 +11,8 @@ scr_game_state_init();
 
 // Важно:
 // В комнате есть чёрный Background layer с depth = 100.
-// Если поставить контроллеру depth = 1000000, фон рисуется ЗА чёрным слоем.
-// Поэтому ставим depth = 50:
-// фон улицы будет поверх чёрного Background layer,
-// но игрок с depth = -100000 всё равно останется поверх фона.
+// depth = 50 держит фон улицы поверх чёрного слоя комнаты,
+// но игрок с depth = -100000 всё равно остаётся поверх фона.
 depth = 50;
 
 global.location_map_active = false;
@@ -57,6 +55,13 @@ door_y = 420;
 door_radius = 125;
 
 
+// Позиция героя на постановочном кадре с Джозофом.
+// Герой видим, но фиксируется на месте,
+// чтобы не ходить поверх нарисованных Джозофа и пьяницы.
+joseph_scene_player_x = 930;
+joseph_scene_player_y = 520;
+
+
 // Куда вернуть игрока после постановочного кадра.
 player_return_x = 650;
 player_return_y = 520;
@@ -66,15 +71,15 @@ player_return_y = 520;
 joseph_dialogue_requested = false;
 
 
-// Если игрок уже пришёл на постановочный кадр,
-// скрываем его, потому что Джозоф и пьяница нарисованы на фоне.
+// На второй сцене герой больше не скрывается.
+// Он остаётся видимым и ставится в постановочную позицию.
 var player_id = instance_find(obj_player, 0);
 
 if (player_id != noone) {
+    player_id.visible = true;
+
     if (current_stage == 1) {
-        player_id.visible = false;
-    }
-    else {
-        player_id.visible = true;
+        player_id.x = joseph_scene_player_x;
+        player_id.y = joseph_scene_player_y;
     }
 }
