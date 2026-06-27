@@ -7,6 +7,14 @@ function scr_game_init() {
         variable_global_exists("game_initialized")
         && global.game_initialized
     ) {
+        // --------------------------------------------------
+        // ДОБАВЛЯЕМ НОВЫЕ ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ БЕЗ СБРОСА ИГРЫ
+        // --------------------------------------------------
+        if (!variable_global_exists("joseph_loyalty")) global.joseph_loyalty = 50;
+        if (!variable_global_exists("joseph_pub_choice")) global.joseph_pub_choice = -1;
+        if (!variable_global_exists("joseph_pub_choice_done")) global.joseph_pub_choice_done = false;
+        if (!variable_global_exists("pub_street_phase")) global.pub_street_phase = 0;
+        if (!variable_global_exists("location_map_active")) global.location_map_active = false;
         return;
     }
 
@@ -31,6 +39,7 @@ function scr_game_init() {
     global.crew_loyalty = 50;
 
     global.joseph_trust = 60;
+    global.joseph_loyalty = 50;
     global.william_trust = 50;
     global.thomas_trust = 55;
     global.tom_trust = 50;
@@ -58,9 +67,20 @@ function scr_game_init() {
     global.wife_expedition_choice = -1;
     global.wife_expedition_choice_done = false;
 
-    // Переход из дома в гавань
+    // Ответ Джозофа у паба
+    global.joseph_pub_choice = -1;
+    global.joseph_pub_choice_done = false;
+
+    // Состояние улицы у паба
+    // 0 = первая картинка, 1 = сцена с Джозофом, 2 = дверь открыта
+    global.pub_street_phase = 0;
+
+    // Переход из дома в карту города
     global.prologue_final_started = false;
     global.prologue_harbor_transition_done = false;
+
+    // Карта города
+    global.location_map_active = false;
 }
 
 
@@ -73,6 +93,9 @@ function scr_clamp_family_stats() {
     global.daughter_health = clamp(global.daughter_health, 0, 100);
     global.daughter_trust = clamp(global.daughter_trust, 0, 100);
     global.daughter_loyalty = clamp(global.daughter_loyalty, 0, 100);
+
+    global.joseph_trust = clamp(global.joseph_trust, 0, 100);
+    global.joseph_loyalty = clamp(global.joseph_loyalty, 0, 100);
 }
 
 

@@ -1,7 +1,7 @@
 // obj_cutscene
 // Step Event
-// Управляет диалогами дочери и жены, выбором, паузами,
-// плашками отношений, тишиной и переходом на карту города.
+// Управляет диалогами дочери, жены и Джозофа,
+// выбором, паузами, плашками отношений и переходом на карту города.
 
 
 // --------------------------------------------------
@@ -37,8 +37,6 @@ if (fade_active) {
             room_goto(city_map_room);
         }
         else {
-            // Временный запасной переход, чтобы проект не падал,
-            // если rm_city_map ещё не создана.
             var harbor_room = asset_get_index("rm_harbor");
 
             if (harbor_room != -1) {
@@ -80,8 +78,6 @@ if (final_question_timer > 0) {
     if (final_question_timer <= 0) {
         final_question_timer = 0;
 
-        // Наступает тишина: окно диалога исчезает,
-        // игрок не получает возможности ответить.
         active = false;
         dialogue_open = false;
         choice_open = false;
@@ -103,8 +99,6 @@ if (!active) {
 scr_game_state_init();
 
 
-// Во время общей паузы диалог остаётся на экране,
-// но его внутреннее состояние не изменяется.
 if (global.game_state == GameState.PAUSE) {
     exit;
 }
@@ -139,7 +133,6 @@ if (pause_frames > 0) {
 switch (global.game_state) {
     case GameState.DIALOGUE:
         if (keyboard_check_pressed(vk_enter)) {
-            // Обычная одиночная реплика закрывается по Enter.
             if (dialogue_type == 1) {
                 finish_dialogue();
                 break;
@@ -193,7 +186,6 @@ switch (global.game_state) {
                         break;
 
                     case 6:
-                        // Небольшая пауза, затем диалог заканчивается.
                         start_dialogue_pause(
                             round(game_get_speed(gamespeed_fps)),
                             0,
@@ -284,10 +276,146 @@ switch (global.game_state) {
                         dialogue_step = 9;
                         speaker = "Жена";
                         dialogue_text = "Что ты выберешь?";
-
-                        // Игрок не получает вариантов ответа.
-                        // Вопрос висит на экране, затем начинается тишина.
                         final_question_timer = round(game_get_speed(gamespeed_fps) * 2);
+                        break;
+                }
+            }
+
+
+            // --------------------------------------------------
+            // ДИАЛОГ С ДЖОЗОФОМ У ПАБА
+            // --------------------------------------------------
+            if (dialogue_type == 4) {
+                switch (dialogue_step) {
+                    case 0:
+                        dialogue_step = 1;
+                        speaker = "Джозоф";
+                        dialogue_text = "Я уж думал, ты передумал спасать мир.";
+                        break;
+
+                    case 1:
+                        dialogue_step = 2;
+                        speaker = "Герой";
+                        dialogue_text = "Пока только пытаюсь собрать команду.";
+                        break;
+
+                    case 2:
+                        dialogue_step = 3;
+                        speaker = "Джозоф";
+                        dialogue_text = "Ну, значит, начал с правильного человека.";
+                        break;
+
+                    case 3:
+                        dialogue_step = 4;
+                        speaker = "Герой";
+                        dialogue_text = "Смотрю, работа идет спокойно.";
+                        break;
+
+                    case 4:
+                        dialogue_step = 5;
+                        speaker = "Джозоф";
+                        dialogue_text = "Да этот решил, что может расплатиться обещаниями.";
+                        break;
+
+                    case 5:
+                        dialogue_step = 6;
+                        speaker = "Джозоф";
+                        dialogue_text = "Хозяин попросил объяснить ему, как здесь принято платить.";
+                        break;
+
+                    case 6:
+                        dialogue_step = 7;
+                        speaker = "Джозоф";
+                        dialogue_text = "Думаю, он понял.";
+                        break;
+
+                    case 7:
+                        dialogue_step = 8;
+                        speaker = "Джозоф";
+                        dialogue_text = "Жена отпустила?";
+                        break;
+
+                    case 8:
+                        dialogue_step = 9;
+                        speaker = "Герой";
+                        dialogue_text = "Скорее... смирилась.";
+                        break;
+
+                    case 9:
+                        start_dialogue_pause(
+                            round(game_get_speed(gamespeed_fps)),
+                            10,
+                            "Джозоф",
+                            "Значит, все действительно плохо...",
+                            false
+                        );
+                        break;
+
+                    case 10:
+                        dialogue_step = 11;
+                        speaker = "Герой";
+                        dialogue_text = "Хуже, чем я думал.";
+                        break;
+
+                    case 11:
+                        dialogue_step = 12;
+                        speaker = "Джозоф";
+                        dialogue_text = "...";
+                        break;
+
+                    case 12:
+                        dialogue_step = 13;
+                        speaker = "Джозоф";
+                        dialogue_text = "Тогда чего мы вообще стоим?";
+                        break;
+
+                    case 13:
+                        dialogue_step = 14;
+                        speaker = "Джозоф";
+                        dialogue_text = "Пошли собирать эту проклятую экспедицию.";
+                        break;
+
+                    case 14:
+                        dialogue_open = false;
+                        choice_open = true;
+                        choice_index = 0;
+                        scr_game_state_set(GameState.CHOICE);
+                        break;
+
+                    case 15:
+                        if (last_choice_index == 0) {
+                            finish_dialogue();
+                        }
+                        else if (last_choice_index == 1) {
+                            dialogue_step = 16;
+                            speaker = "Джозоф";
+                            dialogue_text = "Я не настолько умный, чтобы бояться заранее.";
+                        }
+                        else {
+                            dialogue_step = 20;
+                            speaker = "Джозоф";
+                            dialogue_text = "Поздно.";
+                        }
+                        break;
+
+                    case 16:
+                        finish_dialogue();
+                        break;
+
+                    case 20:
+                        dialogue_step = 21;
+                        speaker = "Джозоф";
+                        dialogue_text = "Я уже пообещал твоей дочке вернуть ее отца домой.";
+                        break;
+
+                    case 21:
+                        start_dialogue_pause(
+                            round(game_get_speed(gamespeed_fps)),
+                            0,
+                            "",
+                            "",
+                            true
+                        );
                         break;
                 }
             }
@@ -330,10 +458,17 @@ switch (global.game_state) {
                 apply_wife_choice(choice_index);
             }
 
+            if (dialogue_type == 4) {
+                apply_joseph_choice(choice_index);
+            }
+
             choice_open = false;
             dialogue_open = true;
 
             dialogue_step = 5;
+            if (dialogue_type == 4) {
+                dialogue_step = 15;
+            }
             speaker = "Герой";
             dialogue_text = choice_options[choice_index];
 

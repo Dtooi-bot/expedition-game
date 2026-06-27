@@ -1,7 +1,7 @@
 // obj_cutscene
 // Create Event
 // Единый постоянный контроллер диалогов.
-// Управляет дочерью, женой, плашками отношений и переходом в гавань.
+// Управляет дочерью, женой, Джозофом и плашками отношений.
 
 if (instance_number(obj_cutscene) > 1) {
     instance_destroy();
@@ -23,6 +23,7 @@ dialogue_type = 0;
 // 1 = простая реплика
 // 2 = диалог с дочерью
 // 3 = диалог с женой
+// 4 = диалог с Джозофом у паба
 
 dialogue_step = 0;
 speaker = "";
@@ -62,7 +63,7 @@ relation_popup_margin_y = 24;
 
 
 // --------------------------------------------------
-// ЗАТЕМНЕНИЕ И ПЕРЕХОД В ГАВАНЬ
+// ЗАТЕМНЕНИЕ И ПЕРЕХОД ИЗ ДОМА НА КАРТУ ГОРОДА
 // --------------------------------------------------
 
 fade_active = false;
@@ -71,7 +72,6 @@ fade_speed = 1 / 120;
 
 
 // Запускает плашку изменения отношений.
-// _trust_delta и _loyalty_delta показывают, что именно изменилось.
 show_relation_popup = function(
     _character_name,
     _trust_value,
@@ -131,7 +131,7 @@ finish_dialogue = function() {
 };
 
 
-// Запускает затемнение перед переходом.
+// Запускает затемнение перед переходом из дома.
 begin_harbor_transition = function() {
     active = false;
     dialogue_open = false;
@@ -142,7 +142,6 @@ begin_harbor_transition = function() {
 
     global.prologue_final_started = true;
 
-    // Пока экран темнеет, игрок не должен двигаться.
     scr_game_state_set(GameState.DIALOGUE);
 };
 
@@ -173,7 +172,6 @@ start_simple_dialogue = function(_speaker, _text) {
 
 
 // Запускает диалог с дочерью.
-// После первого важного разговора повторно выборы не показываем.
 start_daughter_dialogue = function() {
     if (!scr_game_state_is(GameState.EXPLORE)) {
         return;
@@ -215,7 +213,6 @@ start_daughter_dialogue = function() {
 
 
 // Запускает диалог с женой.
-// Он доступен только после важного разговора с дочерью.
 start_wife_dialogue = function() {
     if (!scr_game_state_is(GameState.EXPLORE)) {
         return;
@@ -269,6 +266,51 @@ start_wife_dialogue = function() {
 };
 
 
+// Запускает диалог с Джозофом у паба.
+start_joseph_pub_dialogue = function() {
+    if (
+        global.game_state == GameState.DIALOGUE
+        || global.game_state == GameState.CHOICE
+        || active
+    ) {
+        return;
+    }
+
+    if (
+        variable_global_exists("joseph_pub_choice_done")
+        && global.joseph_pub_choice_done
+    ) {
+        start_simple_dialogue(
+            "Герой",
+            "С Джозофом уже все решено. Пора двигаться дальше."
+        );
+        return;
+    }
+
+    active = true;
+    dialogue_open = true;
+    choice_open = false;
+
+    dialogue_type = 4;
+    dialogue_step = 0;
+
+    speaker = "Джозоф";
+    dialogue_text = "Ну наконец-то!";
+
+    choice_options = [
+        "Я рассчитываю на тебя.",
+        "Ты уверен? Обратной дороги может не быть.",
+        "Еще не поздно отказаться."
+    ];
+
+    choice_index = 0;
+    last_choice_index = -1;
+    pause_frames = 0;
+
+    scr_game_state_set(GameState.DIALOGUE);
+};
+
+
 // Применяет выбранный ответ дочери.
 apply_daughter_choice = function(_selected_index) {
     global.daughter_departure_choice = _selected_index;
@@ -282,14 +324,10 @@ apply_daughter_choice = function(_selected_index) {
 
     switch (_selected_index) {
         case 0:
-            // "Да... Мне нужно выйти до рассвета."
-            // Смысл: герой подтверждает, что исчезнет до пробуждения дочери.
             loyalty_delta = -10;
             break;
 
         case 1:
-            // "Нет. Я разбужу тебя перед уходом."
-            // Смысл: герой обещает не исчезать молча.
             loyalty_delta = 10;
             break;
     }
@@ -321,20 +359,16 @@ apply_wife_choice = function(_selected_index) {
 
     switch (_selected_index) {
         case 0:
-            // "Да. Иначе я бы не уходил."
-            // Без изменений.
             trust_delta = 0;
             loyalty_delta = 0;
             break;
 
         case 1:
-            // "Нет. Но другого пути нет."
             trust_delta = -20;
             loyalty_delta = -20;
             break;
 
         case 2:
-            // "Мне приходится верить."
             trust_delta = 10;
             loyalty_delta = -15;
             break;
@@ -350,6 +384,44 @@ apply_wife_choice = function(_selected_index) {
             "Жена",
             global.wife_trust,
             global.wife_loyalty,
+            trust_delta,
+            loyalty_delta
+        );
+    }
+};
+
+
+// Применяет выбранный ответ в сцене у паба.
+apply_joseph_choice = function(_selected_index) {
+    global.joseph_pub_choice = _selected_index;
+    global.joseph_pub_choice_done = true;
+
+    var trust_delta = 0;
+    var loyalty_delta = 0;
+
+    switch (_selected_index) {
+        case 0:
+            trust_delta = 10;
+            break;
+
+        case 1:
+            break;
+
+        case 2:
+            loyalty_delta = 10;
+            break;
+    }
+
+    if (trust_delta != 0 || loyalty_delta != 0) {
+        global.joseph_trust += trust_delta;
+        global.joseph_loyalty += loyalty_delta;
+
+        scr_clamp_family_stats();
+
+        show_relation_popup(
+            "Джозоф",
+            global.joseph_trust,
+            global.joseph_loyalty,
             trust_delta,
             loyalty_delta
         );

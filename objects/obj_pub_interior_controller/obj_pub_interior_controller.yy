@@ -1,17 +1,18 @@
 {
   "$GMObject":"",
-  "%Name":"obj_pub_entrance_controller",
+  "%Name":"obj_pub_interior_controller",
   "eventList":[
     {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":0,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
-    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":64,"eventType":8,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
     {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":8,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
+    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":3,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
+    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":64,"eventType":8,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
   ],
   "managed":true,
-  "name":"obj_pub_entrance_controller",
+  "name":"obj_pub_interior_controller",
   "overriddenProperties":[],
   "parent":{
-    "name":"expedition game",
-    "path":"expedition game.yyp",
+    "name":"ПАБ",
+    "path":"folders/ПАБ.yy",
   },
   "parentObjectId":null,
   "persistent":false,
