@@ -20,6 +20,7 @@
     {"name":"obj_home_interact","order":3,"path":"objects/obj_home_interact/obj_home_interact.yy",},
     {"name":"obj_home_wife","order":1,"path":"objects/obj_home_wife/obj_home_wife.yy",},
     {"name":"obj_solid","order":4,"path":"objects/obj_solid/obj_solid.yy",},
+    {"name":"rm_harbor","order":27,"path":"rooms/rm_harbor/rm_harbor.yy",},
     {"name":"rm_home","order":13,"path":"rooms/rm_home/rm_home.yy",},
     {"name":"scr_game_state","order":1,"path":"scripts/scr_game_state/scr_game_state.yy",},
     {"name":"scr_interaction","order":2,"path":"scripts/scr_interaction/scr_interaction.yy",},

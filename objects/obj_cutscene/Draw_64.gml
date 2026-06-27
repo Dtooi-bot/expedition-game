@@ -1,7 +1,7 @@
 // obj_cutscene
 // Draw GUI Event
-// Нижняя диалоговая панель, варианты ответа
-// и временная плашка изменения отношений.
+// Нижняя диалоговая панель, варианты ответа,
+// плашки отношений и затемнение перед переходом.
 
 draw_set_font(fnt_ui_cyrillic);
 
@@ -85,8 +85,7 @@ if (active) {
         );
     }
     else {
-        // Во время автоматической паузы подсказку не показываем.
-        if (pause_frames <= 0) {
+        if (pause_frames <= 0 && final_question_timer <= 0) {
             draw_text(
                 panel_x1 + 24,
                 panel_y2 - 28,
@@ -111,50 +110,6 @@ if (relation_popup_active) {
 
     var popup_scale = relation_popup_scale;
 
-    var popup_w = sprite_get_width(spr_ui_daughter_relation_popup) * popup_scale;
-    var popup_h = sprite_get_height(spr_ui_daughter_relation_popup) * popup_scale;
-
-    var popup_x = gui_w - popup_w - relation_popup_margin_x;
-    var popup_y = relation_popup_margin_y;
-
-
-    // Фон-плашка.
-    draw_set_alpha(popup_alpha);
-    draw_set_color(c_white);
-
-    draw_sprite_ext(
-        spr_ui_daughter_relation_popup,
-        0,
-        popup_x,
-        popup_y,
-        popup_scale,
-        popup_scale,
-        0,
-        c_white,
-        popup_alpha
-    );
-
-
-    // Координаты внутри исходного спрайта плашки.
-    // Спрайт сделан из картинки 958x428.
-    // Шкала доверия сдвинута ниже, чтобы не залезать на текст "Доверие".
-    var trust_bar_x = popup_x + 306 * popup_scale;
-    var trust_bar_y = popup_y + 220 * popup_scale;
-
-    var loyalty_bar_x = popup_x + 306 * popup_scale;
-    var loyalty_bar_y = popup_y + 326 * popup_scale;
-
-    var bar_w = 462 * popup_scale;
-    var bar_h = 34 * popup_scale;
-
-    var trust_delta_x = popup_x + 790 * popup_scale;
-    var trust_delta_y = popup_y + 216 * popup_scale;
-
-    var loyalty_delta_x = popup_x + 790 * popup_scale;
-    var loyalty_delta_y = popup_y + 326 * popup_scale;
-
-
-    // Цвета
     var col_bar_back = make_color_rgb(10, 13, 16);
     var col_bar_border = make_color_rgb(3, 5, 7);
 
@@ -164,158 +119,277 @@ if (relation_popup_active) {
     var col_green = make_color_rgb(92, 220, 56);
     var col_red = make_color_rgb(230, 55, 45);
 
-    var col_delta = col_green;
-
-    if (relation_popup_trust_delta < 0) {
-        col_delta = col_red;
-    }
-
-
-    // Рисуем шкалу доверия.
     var trust_percent = clamp(relation_popup_trust_value, 0, 100);
-
-    draw_set_color(col_bar_back);
-    draw_rectangle(
-        trust_bar_x,
-        trust_bar_y,
-        trust_bar_x + bar_w,
-        trust_bar_y + bar_h,
-        false
-    );
-
-    draw_set_color(col_trust);
-    draw_rectangle(
-        trust_bar_x + 3 * popup_scale,
-        trust_bar_y + 3 * popup_scale,
-        trust_bar_x + 3 * popup_scale + (bar_w - 6 * popup_scale) * trust_percent / 100,
-        trust_bar_y + bar_h - 3 * popup_scale,
-        false
-    );
-
-    draw_set_color(col_bar_border);
-    draw_rectangle(
-        trust_bar_x,
-        trust_bar_y,
-        trust_bar_x + bar_w,
-        trust_bar_y + bar_h,
-        true
-    );
-
-
-    // Рисуем шкалу лояльности.
     var loyalty_percent = clamp(relation_popup_loyalty_value, 0, 100);
 
-    draw_set_color(col_bar_back);
-    draw_rectangle(
-        loyalty_bar_x,
-        loyalty_bar_y,
-        loyalty_bar_x + bar_w,
-        loyalty_bar_y + bar_h,
-        false
-    );
 
-    draw_set_color(col_loyalty);
-    draw_rectangle(
-        loyalty_bar_x + 3 * popup_scale,
-        loyalty_bar_y + 3 * popup_scale,
-        loyalty_bar_x + 3 * popup_scale + (bar_w - 6 * popup_scale) * loyalty_percent / 100,
-        loyalty_bar_y + bar_h - 3 * popup_scale,
-        false
-    );
+    // --------------------------------------------------
+    // 2.1. КРАСИВАЯ ПЛАШКА ДОЧЕРИ
+    // --------------------------------------------------
 
-    draw_set_color(col_bar_border);
-    draw_rectangle(
-        loyalty_bar_x,
-        loyalty_bar_y,
-        loyalty_bar_x + bar_w,
-        loyalty_bar_y + bar_h,
-        true
-    );
+    if (relation_popup_character_name == "Дочь") {
+        var popup_w = sprite_get_width(spr_ui_daughter_relation_popup) * popup_scale;
+        var popup_h = sprite_get_height(spr_ui_daughter_relation_popup) * popup_scale;
+
+        var popup_x = gui_w - popup_w - relation_popup_margin_x;
+        var popup_y = relation_popup_margin_y;
 
 
-    // Текст изменения доверия.
-    if (relation_popup_trust_delta != 0) {
-        var delta_text = "";
+        // Фон-плашка.
+        draw_set_alpha(popup_alpha);
+        draw_set_color(c_white);
 
-        if (relation_popup_trust_delta > 0) {
-            delta_text = "+" + string(relation_popup_trust_delta);
-        }
-        else {
-            delta_text = string(relation_popup_trust_delta);
-        }
-
-        draw_set_font(fnt_ui_cyrillic);
-        draw_set_halign(fa_left);
-        draw_set_valign(fa_middle);
-        draw_set_color(col_delta);
-
-        draw_text_transformed(
-            trust_delta_x,
-            trust_delta_y,
-            delta_text,
-            popup_scale * 1.7,
-            popup_scale * 1.7,
-            0
+        draw_sprite_ext(
+            spr_ui_daughter_relation_popup,
+            0,
+            popup_x,
+            popup_y,
+            popup_scale,
+            popup_scale,
+            0,
+            c_white,
+            popup_alpha
         );
 
 
-        // Стрелка вверх или вниз рядом с числом.
-        var arrow_x = trust_delta_x + 75 * popup_scale;
-        var arrow_y = trust_delta_y;
+        // Координаты внутри исходного спрайта плашки.
+        var trust_bar_x = popup_x + 306 * popup_scale;
+        var trust_bar_y = popup_y + 220 * popup_scale;
 
-        draw_set_color(col_delta);
+        var loyalty_bar_x = popup_x + 306 * popup_scale;
+        var loyalty_bar_y = popup_y + 326 * popup_scale;
 
-        if (relation_popup_trust_delta > 0) {
-            draw_triangle(
-                arrow_x,
-                arrow_y - 26 * popup_scale,
-                arrow_x - 15 * popup_scale,
-                arrow_y + 2 * popup_scale,
-                arrow_x + 15 * popup_scale,
-                arrow_y + 2 * popup_scale,
-                false
-            );
+        var bar_w = 462 * popup_scale;
+        var bar_h = 34 * popup_scale;
 
-            draw_rectangle(
-                arrow_x - 6 * popup_scale,
-                arrow_y,
-                arrow_x + 6 * popup_scale,
-                arrow_y + 28 * popup_scale,
-                false
+        var trust_delta_x = popup_x + 790 * popup_scale;
+        var trust_delta_y = popup_y + 216 * popup_scale;
+
+        var loyalty_delta_x = popup_x + 790 * popup_scale;
+        var loyalty_delta_y = popup_y + 326 * popup_scale;
+
+
+        // Шкала доверия.
+        draw_set_color(col_bar_back);
+        draw_rectangle(
+            trust_bar_x,
+            trust_bar_y,
+            trust_bar_x + bar_w,
+            trust_bar_y + bar_h,
+            false
+        );
+
+        draw_set_color(col_trust);
+        draw_rectangle(
+            trust_bar_x + 3 * popup_scale,
+            trust_bar_y + 3 * popup_scale,
+            trust_bar_x + 3 * popup_scale + (bar_w - 6 * popup_scale) * trust_percent / 100,
+            trust_bar_y + bar_h - 3 * popup_scale,
+            false
+        );
+
+        draw_set_color(col_bar_border);
+        draw_rectangle(
+            trust_bar_x,
+            trust_bar_y,
+            trust_bar_x + bar_w,
+            trust_bar_y + bar_h,
+            true
+        );
+
+
+        // Шкала лояльности.
+        draw_set_color(col_bar_back);
+        draw_rectangle(
+            loyalty_bar_x,
+            loyalty_bar_y,
+            loyalty_bar_x + bar_w,
+            loyalty_bar_y + bar_h,
+            false
+        );
+
+        draw_set_color(col_loyalty);
+        draw_rectangle(
+            loyalty_bar_x + 3 * popup_scale,
+            loyalty_bar_y + 3 * popup_scale,
+            loyalty_bar_x + 3 * popup_scale + (bar_w - 6 * popup_scale) * loyalty_percent / 100,
+            loyalty_bar_y + bar_h - 3 * popup_scale,
+            false
+        );
+
+        draw_set_color(col_bar_border);
+        draw_rectangle(
+            loyalty_bar_x,
+            loyalty_bar_y,
+            loyalty_bar_x + bar_w,
+            loyalty_bar_y + bar_h,
+            true
+        );
+
+
+        // Изменение доверия.
+        if (relation_popup_trust_delta != 0) {
+            var trust_delta_text = string(relation_popup_trust_delta);
+
+            if (relation_popup_trust_delta > 0) {
+                trust_delta_text = "+" + string(relation_popup_trust_delta);
+                draw_set_color(col_green);
+            }
+            else {
+                draw_set_color(col_red);
+            }
+
+            draw_set_halign(fa_left);
+            draw_set_valign(fa_middle);
+
+            draw_text_transformed(
+                trust_delta_x,
+                trust_delta_y,
+                trust_delta_text,
+                popup_scale * 1.7,
+                popup_scale * 1.7,
+                0
             );
         }
-        else {
-            draw_triangle(
-                arrow_x,
-                arrow_y + 28 * popup_scale,
-                arrow_x - 15 * popup_scale,
-                arrow_y,
-                arrow_x + 15 * popup_scale,
-                arrow_y,
-                false
-            );
 
-            draw_rectangle(
-                arrow_x - 6 * popup_scale,
-                arrow_y - 26 * popup_scale,
-                arrow_x + 6 * popup_scale,
-                arrow_y + 2 * popup_scale,
-                false
+
+        // Изменение лояльности.
+        if (relation_popup_loyalty_delta != 0) {
+            var loyalty_delta_text = string(relation_popup_loyalty_delta);
+
+            if (relation_popup_loyalty_delta > 0) {
+                loyalty_delta_text = "+" + string(relation_popup_loyalty_delta);
+                draw_set_color(col_green);
+            }
+            else {
+                draw_set_color(col_red);
+            }
+
+            draw_set_halign(fa_left);
+            draw_set_valign(fa_middle);
+
+            draw_text_transformed(
+                loyalty_delta_x,
+                loyalty_delta_y,
+                loyalty_delta_text,
+                popup_scale * 1.7,
+                popup_scale * 1.7,
+                0
             );
         }
+
+        draw_set_alpha(1);
     }
 
 
-    // Лояльность сейчас не меняем, поэтому здесь ничего не пишем.
-    // Когда появятся выборы, влияющие на лояльность,
-    // можно будет вывести relation_popup_loyalty_delta у loyalty_delta_x/y.
+    // --------------------------------------------------
+    // 2.2. ВРЕМЕННАЯ ТЕКСТОВАЯ ПЛАШКА ДЛЯ ЖЕНЫ
+    // --------------------------------------------------
+    // Для жены пока нет отдельного арта плашки.
+    // Поэтому изменения показываются простым GUI-блоком.
 
+    else {
+        var box_w = 440;
+        var box_h = 190;
+        var box_x = gui_w - box_w - 24;
+        var box_y = 24;
+
+        draw_set_alpha(0.86 * popup_alpha);
+        draw_set_color(c_black);
+        draw_rectangle(box_x, box_y, box_x + box_w, box_y + box_h, false);
+
+        draw_set_alpha(popup_alpha);
+        draw_set_color(c_white);
+        draw_rectangle(box_x, box_y, box_x + box_w, box_y + box_h, true);
+
+        draw_set_font(fnt_ui_cyrillic);
+        draw_set_halign(fa_left);
+        draw_set_valign(fa_top);
+
+        draw_text(box_x + 24, box_y + 18, relation_popup_character_name);
+
+        var trust_y = box_y + 68;
+        var loyalty_y = box_y + 126;
+
+        draw_set_color(c_white);
+        draw_text(box_x + 24, trust_y, "Доверие");
+        draw_text(box_x + 24, loyalty_y, "Лояльность");
+
+        var bar_x = box_x + 160;
+        var bar_w = 150;
+        var bar_h = 14;
+
+        draw_set_color(col_bar_back);
+        draw_rectangle(bar_x, trust_y + 6, bar_x + bar_w, trust_y + 6 + bar_h, false);
+        draw_rectangle(bar_x, loyalty_y + 6, bar_x + bar_w, loyalty_y + 6 + bar_h, false);
+
+        draw_set_color(col_trust);
+        draw_rectangle(
+            bar_x + 2,
+            trust_y + 8,
+            bar_x + 2 + (bar_w - 4) * trust_percent / 100,
+            trust_y + 6 + bar_h - 2,
+            false
+        );
+
+        draw_set_color(col_loyalty);
+        draw_rectangle(
+            bar_x + 2,
+            loyalty_y + 8,
+            bar_x + 2 + (bar_w - 4) * loyalty_percent / 100,
+            loyalty_y + 6 + bar_h - 2,
+            false
+        );
+
+        // Изменение доверия жены.
+        if (relation_popup_trust_delta != 0) {
+            var wife_trust_delta_text = string(relation_popup_trust_delta);
+
+            if (relation_popup_trust_delta > 0) {
+                wife_trust_delta_text = "+" + string(relation_popup_trust_delta);
+                draw_set_color(col_green);
+            }
+            else {
+                draw_set_color(col_red);
+            }
+
+            draw_text(box_x + 330, trust_y - 2, wife_trust_delta_text);
+        }
+
+        // Изменение лояльности жены.
+        if (relation_popup_loyalty_delta != 0) {
+            var wife_loyalty_delta_text = string(relation_popup_loyalty_delta);
+
+            if (relation_popup_loyalty_delta > 0) {
+                wife_loyalty_delta_text = "+" + string(relation_popup_loyalty_delta);
+                draw_set_color(col_green);
+            }
+            else {
+                draw_set_color(col_red);
+            }
+
+            draw_text(box_x + 330, loyalty_y - 2, wife_loyalty_delta_text);
+        }
+
+        draw_set_alpha(1);
+    }
+}
+
+
+// --------------------------------------------------
+// 3. ЗАТЕМНЕНИЕ ПЕРЕД ГАВАНЬЮ
+// --------------------------------------------------
+
+if (fade_active) {
+    draw_set_alpha(clamp(fade_alpha, 0, 1));
+    draw_set_color(c_black);
+    draw_rectangle(0, 0, gui_w, gui_h, false);
     draw_set_alpha(1);
 }
 
 
 // --------------------------------------------------
-// 3. СБРОС НАСТРОЕК РИСОВАНИЯ
+// 4. СБРОС НАСТРОЕК РИСОВАНИЯ
 // --------------------------------------------------
 
 draw_set_alpha(1);

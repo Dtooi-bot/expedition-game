@@ -53,6 +53,14 @@ function scr_game_init() {
     global.daughter_departure_choice_done = false;
     global.promised_to_wake_daughter = false;
     global.promised_to_stay_with_daughter = false;
+
+    // Ответ жены перед уходом
+    global.wife_expedition_choice = -1;
+    global.wife_expedition_choice_done = false;
+
+    // Переход из дома в гавань
+    global.prologue_final_started = false;
+    global.prologue_harbor_transition_done = false;
 }
 
 
