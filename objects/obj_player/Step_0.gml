@@ -1,6 +1,8 @@
 // obj_player
 // Step Event
 // Движение разрешено только в состоянии исследования.
+// Коллизия теперь учитывает не только стены и интерактивные предметы,
+// но и NPC: жену, дочь и Джозофа.
 
 scr_game_state_init();
 
@@ -20,11 +22,19 @@ var hsp = move_x * move_speed;
 var vsp = move_y * move_speed;
 
 
-// Движение по X
-if (
-    !place_meeting(x + hsp, y, obj_solid)
-    && !place_meeting(x + hsp, y, obj_home_interact)
-) {
+// --------------------------------------------------
+// ДВИЖЕНИЕ ПО X
+// --------------------------------------------------
+
+var blocked_x = (
+    place_meeting(x + hsp, y, obj_solid)
+    || place_meeting(x + hsp, y, obj_home_interact)
+    || place_meeting(x + hsp, y, obj_home_wife)
+    || place_meeting(x + hsp, y, obj_home_daughter)
+    || place_meeting(x + hsp, y, obj_npc_joseph)
+);
+
+if (!blocked_x) {
     x += hsp;
 }
 else {
@@ -32,17 +42,28 @@ else {
         hsp != 0
         && !place_meeting(x + sign(hsp), y, obj_solid)
         && !place_meeting(x + sign(hsp), y, obj_home_interact)
+        && !place_meeting(x + sign(hsp), y, obj_home_wife)
+        && !place_meeting(x + sign(hsp), y, obj_home_daughter)
+        && !place_meeting(x + sign(hsp), y, obj_npc_joseph)
     ) {
         x += sign(hsp);
     }
 }
 
 
-// Движение по Y
-if (
-    !place_meeting(x, y + vsp, obj_solid)
-    && !place_meeting(x, y + vsp, obj_home_interact)
-) {
+// --------------------------------------------------
+// ДВИЖЕНИЕ ПО Y
+// --------------------------------------------------
+
+var blocked_y = (
+    place_meeting(x, y + vsp, obj_solid)
+    || place_meeting(x, y + vsp, obj_home_interact)
+    || place_meeting(x, y + vsp, obj_home_wife)
+    || place_meeting(x, y + vsp, obj_home_daughter)
+    || place_meeting(x, y + vsp, obj_npc_joseph)
+);
+
+if (!blocked_y) {
     y += vsp;
 }
 else {
@@ -50,6 +71,9 @@ else {
         vsp != 0
         && !place_meeting(x, y + sign(vsp), obj_solid)
         && !place_meeting(x, y + sign(vsp), obj_home_interact)
+        && !place_meeting(x, y + sign(vsp), obj_home_wife)
+        && !place_meeting(x, y + sign(vsp), obj_home_daughter)
+        && !place_meeting(x, y + sign(vsp), obj_npc_joseph)
     ) {
         y += sign(vsp);
     }
