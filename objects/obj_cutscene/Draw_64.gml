@@ -1,6 +1,7 @@
 // obj_cutscene
 // Draw GUI Event
 // Нижняя диалоговая панель и варианты ответа.
+draw_set_font(fnt_ui_cyrillic);
 
 if (!active) {
     exit;

@@ -28,6 +28,7 @@
   },
   "name":"expedition game",
   "resources":[
+    {"id":{"name":"fnt_ui_cyrillic","path":"fonts/fnt_ui_cyrillic/fnt_ui_cyrillic.yy",},},
     {"id":{"name":"obj_cutscene","path":"objects/obj_cutscene/obj_cutscene.yy",},},
     {"id":{"name":"obj_family_status","path":"objects/obj_family_status/obj_family_status.yy",},},
     {"id":{"name":"obj_game","path":"objects/obj_game/obj_game.yy",},},

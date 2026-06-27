@@ -10,6 +10,7 @@
     {"name":"Скрипты","order":4,"path":"folders/Скрипты.yy",},
   ],
   "ResourceOrderSettings":[
+    {"name":"fnt_ui_cyrillic","order":23,"path":"fonts/fnt_ui_cyrillic/fnt_ui_cyrillic.yy",},
     {"name":"obj_cutscene","order":10,"path":"objects/obj_cutscene/obj_cutscene.yy",},
     {"name":"obj_family_status","order":18,"path":"objects/obj_family_status/obj_family_status.yy",},
     {"name":"obj_home_daughter","order":12,"path":"objects/obj_home_daughter/obj_home_daughter.yy",},
