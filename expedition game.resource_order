@@ -26,6 +26,7 @@
     {"name":"ChatGPT_Image_25______2026_____21_19_51","order":14,"path":"sprites/ChatGPT_Image_25______2026_____21_19_51/ChatGPT_Image_25______2026_____21_19_51.yy",},
     {"name":"spr_collision_32","order":17,"path":"sprites/spr_collision_32/spr_collision_32.yy",},
     {"name":"spr_npc_joseph","order":7,"path":"sprites/spr_npc_joseph/spr_npc_joseph.yy",},
+    {"name":"spr_ui_daughter_relation_popup","order":26,"path":"sprites/spr_ui_daughter_relation_popup/spr_ui_daughter_relation_popup.yy",},
     {"name":"spr_ui_relationships_menu","order":24,"path":"sprites/spr_ui_relationships_menu/spr_ui_relationships_menu.yy",},
     {"name":"spr_wife","order":1,"path":"sprites/spr_wife/spr_wife.yy",},
   ],

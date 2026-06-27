@@ -1,6 +1,7 @@
 // obj_cutscene
 // Create Event
 // Единый постоянный контроллер диалогов.
+// Теперь также показывает временную плашку изменения отношений.
 
 if (instance_number(obj_cutscene) > 1) {
     instance_destroy();
@@ -30,6 +31,45 @@ choice_index = 0;
 choice_options = [];
 
 pause_frames = 0;
+
+
+// --------------------------------------------------
+// ПЛАШКА ИЗМЕНЕНИЯ ОТНОШЕНИЙ
+// --------------------------------------------------
+
+relation_popup_active = false;
+relation_popup_timer = 0;
+relation_popup_duration = 180;
+
+relation_popup_character_name = "";
+relation_popup_trust_value = 0;
+relation_popup_loyalty_value = 0;
+relation_popup_trust_delta = 0;
+relation_popup_loyalty_delta = 0;
+
+relation_popup_scale = 0.48;
+relation_popup_margin_x = 24;
+relation_popup_margin_y = 24;
+
+
+// Запускает плашку изменения отношений.
+// _trust_delta и _loyalty_delta показывают, что именно изменилось.
+show_relation_popup = function(
+    _character_name,
+    _trust_value,
+    _loyalty_value,
+    _trust_delta,
+    _loyalty_delta
+) {
+    relation_popup_active = true;
+    relation_popup_timer = relation_popup_duration;
+
+    relation_popup_character_name = _character_name;
+    relation_popup_trust_value = clamp(_trust_value, 0, 100);
+    relation_popup_loyalty_value = clamp(_loyalty_value, 0, 100);
+    relation_popup_trust_delta = _trust_delta;
+    relation_popup_loyalty_delta = _loyalty_delta;
+};
 
 
 // Завершает текущий диалог и возвращает исследование.
@@ -105,12 +145,51 @@ start_daughter_dialogue = function() {
 };
 
 
-// Применяет выбранный ответ.
-// Пока сохраняем сам факт обещания, но не меняем доверие автоматически.
+// Применяет выбранный ответ дочери.
+// Здесь меняется доверие и запускается визуальное уведомление.
 apply_daughter_choice = function(_selected_index) {
     global.daughter_departure_choice = _selected_index;
     global.daughter_departure_choice_done = true;
 
     global.promised_to_wake_daughter = (_selected_index == 1);
     global.promised_to_stay_with_daughter = (_selected_index == 2);
+
+    var trust_delta = 0;
+    var loyalty_delta = 0;
+
+    switch (_selected_index) {
+        case 0:
+            // "Да."
+            // Смысл: герой подтверждает худший страх дочери.
+            trust_delta = -10;
+            break;
+
+        case 1:
+            // "Нет. Я разбужу тебя перед уходом."
+            // Смысл: герой не исчезает молча и даёт обещание.
+            trust_delta = 10;
+            break;
+
+        case 2:
+            // "Если получится, я останусь ненадолго."
+            // Пока без числового эффекта.
+            // Это обещание лучше проверять позже отдельным событием.
+            trust_delta = 0;
+            break;
+    }
+
+    if (trust_delta != 0 || loyalty_delta != 0) {
+        global.daughter_trust += trust_delta;
+        global.daughter_loyalty += loyalty_delta;
+
+        scr_clamp_family_stats();
+
+        show_relation_popup(
+            "Дочь",
+            global.daughter_trust,
+            global.daughter_loyalty,
+            trust_delta,
+            loyalty_delta
+        );
+    }
 };
