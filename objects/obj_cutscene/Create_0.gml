@@ -92,7 +92,8 @@ finish_dialogue = function() {
 
 
 // Запускает обычную одиночную реплику.
-// Эту функцию используют жена, Джозоф и интерактивные предметы.
+// Эту функцию используют жена, Джозоф, интерактивные предметы
+// и повторное взаимодействие с дочерью после первого важного диалога.
 start_simple_dialogue = function(_speaker, _text) {
     if (!scr_game_state_is(GameState.EXPLORE)) {
         return;
@@ -117,8 +118,22 @@ start_simple_dialogue = function(_speaker, _text) {
 
 
 // Запускает полноценный диалог с дочерью.
+// Если первый разговор уже был завершён,
+// повторно выборы не показываем.
 start_daughter_dialogue = function() {
     if (!scr_game_state_is(GameState.EXPLORE)) {
+        return;
+    }
+
+    if (
+        variable_global_exists("daughter_departure_choice_done")
+        && global.daughter_departure_choice_done
+    ) {
+        start_simple_dialogue(
+            "Герой",
+            "Люсия выглядит болезненно... Я сделаю все, что в моих силах, чтобы вылечить ее."
+        );
+
         return;
     }
 

@@ -137,8 +137,9 @@ if (relation_popup_active) {
 
     // Координаты внутри исходного спрайта плашки.
     // Спрайт сделан из картинки 958x428.
+    // Шкала доверия сдвинута ниже, чтобы не залезать на текст "Доверие".
     var trust_bar_x = popup_x + 306 * popup_scale;
-    var trust_bar_y = popup_y + 184 * popup_scale;
+    var trust_bar_y = popup_y + 220 * popup_scale;
 
     var loyalty_bar_x = popup_x + 306 * popup_scale;
     var loyalty_bar_y = popup_y + 326 * popup_scale;
@@ -147,7 +148,7 @@ if (relation_popup_active) {
     var bar_h = 34 * popup_scale;
 
     var trust_delta_x = popup_x + 790 * popup_scale;
-    var trust_delta_y = popup_y + 182 * popup_scale;
+    var trust_delta_y = popup_y + 216 * popup_scale;
 
     var loyalty_delta_x = popup_x + 790 * popup_scale;
     var loyalty_delta_y = popup_y + 326 * popup_scale;
