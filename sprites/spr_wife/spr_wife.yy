@@ -1,10 +1,10 @@
 {
   "$GMSprite":"v2",
   "%Name":"spr_wife",
-  "bboxMode":0,
-  "bbox_bottom":202,
+  "bboxMode":2,
+  "bbox_bottom":56,
   "bbox_left":85,
-  "bbox_right":162,
+  "bbox_right":160,
   "bbox_top":35,
   "collisionKind":1,
   "collisionTolerance":0,
