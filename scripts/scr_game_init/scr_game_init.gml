@@ -13,6 +13,12 @@ function scr_game_init() {
         if (!variable_global_exists("joseph_loyalty")) global.joseph_loyalty = 50;
         if (!variable_global_exists("joseph_pub_choice")) global.joseph_pub_choice = -1;
         if (!variable_global_exists("joseph_pub_choice_done")) global.joseph_pub_choice_done = false;
+
+        // Новый отдельный диалог уже внутри паба.
+        // Не смешиваем его с уличной сценой перед пабом.
+        if (!variable_global_exists("joseph_inside_pub_choice")) global.joseph_inside_pub_choice = -1;
+        if (!variable_global_exists("joseph_inside_pub_choice_done")) global.joseph_inside_pub_choice_done = false;
+
         if (!variable_global_exists("pub_street_phase")) global.pub_street_phase = 0;
         if (!variable_global_exists("location_map_active")) global.location_map_active = false;
         return;
@@ -67,9 +73,13 @@ function scr_game_init() {
     global.wife_expedition_choice = -1;
     global.wife_expedition_choice_done = false;
 
-    // Ответ Джозофа у паба
+    // Ответ Джозофа у паба на улице
     global.joseph_pub_choice = -1;
     global.joseph_pub_choice_done = false;
+
+    // Ответ Джозофа уже внутри паба
+    global.joseph_inside_pub_choice = -1;
+    global.joseph_inside_pub_choice_done = false;
 
     // Состояние улицы у паба
     // 0 = первая картинка, 1 = сцена с Джозофом, 2 = дверь открыта

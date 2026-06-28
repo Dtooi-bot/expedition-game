@@ -23,7 +23,8 @@ dialogue_type = 0;
 // 1 = простая реплика
 // 2 = диалог с дочерью
 // 3 = диалог с женой
-// 4 = диалог с Джозофом у паба
+// 4 = диалог с Джозофом у паба на улице
+// 5 = диалог с Джозофом внутри паба
 
 dialogue_step = 0;
 speaker = "";
@@ -266,7 +267,8 @@ start_wife_dialogue = function() {
 };
 
 
-// Запускает диалог с Джозофом у паба.
+// Запускает короткую уличную сцену с Джозофом перед входом в паб.
+// Оставляем отдельно, чтобы не ломать переход улица -> паб.
 start_joseph_pub_dialogue = function() {
     if (
         global.game_state == GameState.DIALOGUE
@@ -301,6 +303,51 @@ start_joseph_pub_dialogue = function() {
         "Я рассчитываю на тебя.",
         "Ты уверен? Обратной дороги может не быть.",
         "Еще не поздно отказаться."
+    ];
+
+    choice_index = 0;
+    last_choice_index = -1;
+    pause_frames = 0;
+
+    scr_game_state_set(GameState.DIALOGUE);
+};
+
+
+// Запускает большой диалог с Джозофом уже внутри паба.
+start_joseph_pub_interior_dialogue = function() {
+    if (
+        global.game_state == GameState.DIALOGUE
+        || global.game_state == GameState.CHOICE
+        || active
+    ) {
+        return;
+    }
+
+    if (
+        variable_global_exists("joseph_inside_pub_choice_done")
+        && global.joseph_inside_pub_choice_done
+    ) {
+        start_simple_dialogue(
+            "Джозоф",
+            "Не стой столбом. Если идем в ад, лучше выйти до закрытия."
+        );
+        return;
+    }
+
+    active = true;
+    dialogue_open = true;
+    choice_open = false;
+
+    dialogue_type = 5;
+    dialogue_step = 0;
+
+    speaker = "Джозоф";
+    dialogue_text = "Вечно одно и то же...";
+
+    choice_options = [
+        "Спасибо. Мне нужен именно такой человек.",
+        "Подумай еще раз.#Обратной дороги может не быть.",
+        "Я не могу обещать, что мы вернемся."
     ];
 
     choice_index = 0;
@@ -391,7 +438,7 @@ apply_wife_choice = function(_selected_index) {
 };
 
 
-// Применяет выбранный ответ в сцене у паба.
+// Применяет выбранный ответ в уличной сцене у паба.
 apply_joseph_choice = function(_selected_index) {
     global.joseph_pub_choice = _selected_index;
     global.joseph_pub_choice_done = true;
@@ -408,6 +455,48 @@ apply_joseph_choice = function(_selected_index) {
             break;
 
         case 2:
+            loyalty_delta = 10;
+            break;
+    }
+
+    if (trust_delta != 0 || loyalty_delta != 0) {
+        global.joseph_trust += trust_delta;
+        global.joseph_loyalty += loyalty_delta;
+
+        scr_clamp_family_stats();
+
+        show_relation_popup(
+            "Джозоф",
+            global.joseph_trust,
+            global.joseph_loyalty,
+            trust_delta,
+            loyalty_delta
+        );
+    }
+};
+
+
+// Применяет выбранный ответ в большом диалоге внутри паба.
+apply_joseph_pub_interior_choice = function(_selected_index) {
+    global.joseph_inside_pub_choice = _selected_index;
+    global.joseph_inside_pub_choice_done = true;
+
+    var trust_delta = 0;
+    var loyalty_delta = 0;
+
+    switch (_selected_index) {
+        case 0:
+            // "Спасибо. Мне нужен именно такой человек."
+            trust_delta = 10;
+            break;
+
+        case 1:
+            // "Подумай еще раз. Обратной дороги может не быть."
+            // Без изменений.
+            break;
+
+        case 2:
+            // "Я не могу обещать, что мы вернемся."
             loyalty_delta = 10;
             break;
     }

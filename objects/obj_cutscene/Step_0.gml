@@ -283,7 +283,7 @@ switch (global.game_state) {
 
 
             // --------------------------------------------------
-            // ДИАЛОГ С ДЖОЗОФОМ У ПАБА
+            // ДИАЛОГ С ДЖОЗОФОМ НА УЛИЦЕ У ПАБА
             // --------------------------------------------------
             if (dialogue_type == 4) {
                 switch (dialogue_step) {
@@ -419,6 +419,216 @@ switch (global.game_state) {
                         break;
                 }
             }
+
+
+            // --------------------------------------------------
+            // ДИАЛОГ С ДЖОЗОФОМ ВНУТРИ ПАБА
+            // --------------------------------------------------
+            if (dialogue_type == 5) {
+                switch (dialogue_step) {
+                    case 0:
+                        dialogue_step = 1;
+                        speaker = "Джозоф";
+                        dialogue_text = "Раньше напивались, чтобы отпраздновать удачное плавание.";
+                        break;
+
+                    case 1:
+                        dialogue_step = 2;
+                        speaker = "Джозоф";
+                        dialogue_text = "Теперь напиваются, чтобы забыть о завтрашнем дне.";
+                        break;
+
+                    case 2:
+                        dialogue_step = 3;
+                        speaker = "Герой";
+                        dialogue_text = "Он тоже потерял кого-то?";
+                        break;
+
+                    case 3:
+                        dialogue_step = 4;
+                        speaker = "Джозоф";
+                        dialogue_text = "Жену.";
+                        break;
+
+                    case 4:
+                        dialogue_step = 5;
+                        speaker = "Джозоф";
+                        dialogue_text = "А неделю назад и сына.";
+                        break;
+
+                    case 5:
+                        dialogue_step = 6;
+                        speaker = "Джозоф";
+                        dialogue_text = "Говорят, болезнь добралась до них слишком поздно.";
+                        break;
+
+                    case 6:
+                        dialogue_step = 7;
+                        speaker = "Джозоф";
+                        dialogue_text = "Лекари уже ничем не смогли помочь.";
+                        break;
+
+                    case 7:
+                        start_dialogue_pause(
+                            round(game_get_speed(gamespeed_fps)),
+                            8,
+                            "Джозоф",
+                            "Каждый день таких становится больше.",
+                            false
+                        );
+                        break;
+
+                    case 8:
+                        dialogue_step = 9;
+                        speaker = "Джозоф";
+                        dialogue_text = "Одни молятся, другие спиваются, а остальные делают вид, что ничего не происходит.";
+                        break;
+
+                    case 9:
+                        dialogue_step = 10;
+                        speaker = "Герой";
+                        dialogue_text = "Я не собираюсь сидеть сложа руки.";
+                        break;
+
+                    case 10:
+                        dialogue_step = 11;
+                        speaker = "Джозоф";
+                        dialogue_text = "Поэтому я сразу понял, зачем ты пришел.";
+                        break;
+
+                    case 11:
+                        dialogue_step = 12;
+                        speaker = "Герой";
+                        dialogue_text = "Мне нужен человек, которому я могу доверять.";
+                        break;
+
+                    case 12:
+                        dialogue_step = 13;
+                        speaker = "Джозоф";
+                        dialogue_text = "Тогда тебе повезло.";
+                        break;
+
+                    case 13:
+                        dialogue_step = 14;
+                        speaker = "Джозоф";
+                        dialogue_text = "Потому что других друзей у тебя все равно нет.";
+                        break;
+
+                    case 14:
+                        dialogue_step = 15;
+                        speaker = "Джозоф";
+                        dialogue_text = "Это правда настолько опасно?";
+                        break;
+
+                    case 15:
+                        dialogue_step = 16;
+                        speaker = "Герой";
+                        dialogue_text = "Даже опаснее.";
+                        break;
+
+                    case 16:
+                        dialogue_step = 17;
+                        speaker = "Герой";
+                        dialogue_text = "Я сегодня смотрел в глаза дочери...";
+                        break;
+
+                    case 17:
+                        dialogue_step = 18;
+                        speaker = "Герой";
+                        dialogue_text = "И не могу обещать, что вернусь с лекарством.";
+                        break;
+
+                    case 18:
+                        dialogue_step = 19;
+                        speaker = "Джозоф";
+                        dialogue_text = "...";
+                        break;
+
+                    case 19:
+                        dialogue_step = 20;
+                        speaker = "Джозоф";
+                        dialogue_text = "Тогда чего мы ждем?";
+                        break;
+
+                    case 20:
+                        dialogue_step = 21;
+                        speaker = "Джозоф";
+                        dialogue_text = "Если хоть малейший шанс существует...";
+                        break;
+
+                    case 21:
+                        dialogue_step = 22;
+                        speaker = "Джозоф";
+                        dialogue_text = "Я пойду с тобой.";
+                        break;
+
+                    case 22:
+                        dialogue_step = 23;
+                        speaker = "Джозоф";
+                        dialogue_text = "Даже если эта карта ведет нас прямиком в ад.";
+                        break;
+
+                    case 23:
+                        dialogue_open = false;
+                        choice_open = true;
+                        choice_index = 0;
+                        scr_game_state_set(GameState.CHOICE);
+                        break;
+
+                    case 31:
+                        if (last_choice_index == 0) {
+                            finish_dialogue();
+                        }
+                        else if (last_choice_index == 1) {
+                            dialogue_step = 32;
+                            speaker = "Джозоф";
+                            dialogue_text = "Я уже подумал.";
+                        }
+                        else {
+                            dialogue_step = 40;
+                            speaker = "Джозоф";
+                            dialogue_text = "А я и не прошу.";
+                        }
+                        break;
+
+                    case 32:
+                        dialogue_step = 33;
+                        speaker = "Джозоф";
+                        dialogue_text = "Еще до того, как ты вошел в этот паб.";
+                        break;
+
+                    case 33:
+                        finish_dialogue();
+                        break;
+
+                    case 40:
+                        dialogue_step = 41;
+                        speaker = "Джозоф";
+                        dialogue_text = "Пообещай только одно.";
+                        break;
+
+                    case 41:
+                        dialogue_step = 42;
+                        speaker = "Джозоф";
+                        dialogue_text = "Что если придется выбирать...";
+                        break;
+
+                    case 42:
+                        dialogue_step = 43;
+                        speaker = "Джозоф";
+                        dialogue_text = "Ты не забудешь, ради кого мы вообще отправились в это путешествие.";
+                        break;
+
+                    case 43:
+                        start_dialogue_pause(
+                            round(game_get_speed(gamespeed_fps)),
+                            0,
+                            "",
+                            "",
+                            true
+                        );
+                        break;                }
+            }
         }
         break;
 
@@ -462,13 +672,23 @@ switch (global.game_state) {
                 apply_joseph_choice(choice_index);
             }
 
+            if (dialogue_type == 5) {
+                apply_joseph_pub_interior_choice(choice_index);
+            }
+
             choice_open = false;
             dialogue_open = true;
 
             dialogue_step = 5;
+
             if (dialogue_type == 4) {
                 dialogue_step = 15;
             }
+
+            if (dialogue_type == 5) {
+                dialogue_step = 31;
+            }
+
             speaker = "Герой";
             dialogue_text = choice_options[choice_index];
 
